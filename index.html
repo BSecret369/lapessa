@@ -207,27 +207,6 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
     </div>
   </section>
 
-  <section id="para-quien" style="background:var(--surface);border-block:1px solid var(--line)">
-    <div class="wrap who">
-      <img src="img/manos.jpg" width="1400" height="1400" loading="lazy" alt="Manos arrugadas de una abuela removiendo con cuchara de palo una olla de barro junto al fuego.">
-      <div>
-        <p class="eyebrow">Para quién es</p>
-        <h2 style="font-size:var(--step-2);margin-top:10px">Elige según la persona a quien se lo regalas</h2>
-        <p style="color:var(--muted);margin-top:14px">Imágenes con colores claros, piezas cómodas de coger y detalles que despiertan conversación. Para el abuelo que siempre hizo puzzles, para la madre a la que le cuesta concentrarse, o para una tarde de domingo en familia.</p>
-        <div class="levels">
-          <div class="level">
-            <div class="badge">24<span>piezas</span></div>
-            <div><h3>Un reto suave</h3><p>Piezas grandes y escenas con pocos elementos. Para quien prefiere algo sencillo o convive con un deterioro cognitivo en fase intermedia.</p></div>
-          </div>
-          <div class="level">
-            <div class="badge r">96<span>piezas</span></div>
-            <div><h3>Para quien disfruta del reto</h3><p>Escenas con muchos detalles para buscar. Para mayores con buena destreza o en fases iniciales.</p></div>
-          </div>
-        </div>
-        <p class="fine">Nuestros puzzles son un entretenimiento para compartir. No son un producto sanitario ni sustituyen ninguna terapia.</p>
-      </div>
-    </div>
-  </section>
 
   <div class="hule" aria-hidden="true"></div>
 
@@ -366,6 +345,28 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
     </div>
   </section>
 
+  <section id="para-quien" style="background:var(--surface);border-block:1px solid var(--line)">
+    <div class="wrap who">
+      <img src="img/manos.jpg" width="1400" height="1400" loading="lazy" alt="Manos arrugadas de una abuela removiendo con cuchara de palo una olla de barro junto al fuego.">
+      <div>
+        <p class="eyebrow">Para quién es</p>
+        <h2 style="font-size:var(--step-2);margin-top:10px">Elige según la persona a quien se lo regalas</h2>
+        <p style="color:var(--muted);margin-top:14px">Imágenes con colores claros, piezas cómodas de coger y detalles que despiertan conversación. Para el abuelo que siempre hizo puzzles, para la madre a la que le cuesta concentrarse, o para una tarde de domingo en familia.</p>
+        <div class="levels">
+          <div class="level">
+            <div class="badge">24<span>piezas</span></div>
+            <div><h3>Un reto suave</h3><p>Piezas grandes y escenas con pocos elementos. Para quien prefiere algo sencillo o convive con un deterioro cognitivo en fase intermedia.</p></div>
+          </div>
+          <div class="level">
+            <div class="badge r">96<span>piezas</span></div>
+            <div><h3>Para quien disfruta del reto</h3><p>Escenas con muchos detalles para buscar. Para mayores con buena destreza o en fases iniciales.</p></div>
+          </div>
+        </div>
+        <p class="fine">Nuestros puzzles son un entretenimiento para compartir. No son un producto sanitario ni sustituyen ninguna terapia.</p>
+      </div>
+    </div>
+  </section>
+
 
   <section id="caja" class="box">
     <div class="wrap">
@@ -427,4 +428,18 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
 </footer>
 <div class="tiles" aria-hidden="true"></div>
 
+<script>
+(function(){
+  var marcas=[['coleccion','Llegó a: la colección'],['caja','Llegó a: qué hay en la caja'],['preguntas','Llegó a: preguntas']];
+  function enviar(n,i){ if(window.umami&&umami.track){umami.track(n);} else if(i<20){setTimeout(function(){enviar(n,i+1)},500);} }
+  if(!('IntersectionObserver' in window)) return;
+  marcas.forEach(function(m){
+    var el=document.getElementById(m[0]); if(!el) return;
+    var obs=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ enviar(m[1],0); obs.disconnect(); } }); },{threshold:0.15});
+    obs.observe(el);
+  });
+  var pie=document.querySelector('footer');
+  if(pie){ var o2=new IntersectionObserver(function(es){ if(es[0].isIntersecting){ enviar('Llegó al final',0); o2.disconnect(); } }); o2.observe(pie); }
+})();
+</script>
 </body></html>
