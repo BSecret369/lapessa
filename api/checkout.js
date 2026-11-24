@@ -13,6 +13,15 @@ const CATALOGO = {
   'playa':      { nombre: 'Un día de playa',        detalle: '24 piezas grandes · Preventa, envío antes del 17 dic.', precio: 2495, img: 'playa.jpg' },
   'corral':     { nombre: 'El corral',              detalle: '24 piezas grandes · Preventa, envío antes del 17 dic.', precio: 2495, img: 'corral.jpg' },
   'pescador':   { nombre: 'El pescador',            detalle: '24 piezas grandes · Preventa, envío antes del 17 dic.', precio: 2495, img: 'pescador.jpg' },
+  'mesa': { nombre: 'Christmas Table', detalle: 'Eurographics · 1000 piezas · Bajo pedido, envío en 5–7 días', precio: 2795, imgUrl: 'https://b2btoysline.es/wp-content/uploads/2021/02/8051-5623_Tin-1.jpg', pedido: true },
+  'hygge': { nombre: 'Hygge Holidays', detalle: 'Penny Puzzles · 1000 piezas · Bajo pedido, envío en 5–7 días', precio: 2795, imgUrl: 'https://b2btoysline.es/wp-content/uploads/1970/01/Copia-de-Diseno-sin-titulo.png', pedido: true },
+  'arbol': { nombre: 'Árbol de Navidad', detalle: 'Eurographics · 550 piezas · Bajo pedido, envío en 5–7 días', precio: 2595, imgUrl: 'https://b2btoysline.es/wp-content/uploads/2022/09/8551-5663-ISO.jpg', pedido: true },
+  'jengibre3d': { nombre: 'Casita de jengibre 3D', detalle: 'Eurographics · 302 piezas · Bajo pedido, envío en 5–7 días', precio: 2695, imgUrl: 'https://b2btoysline.es/wp-content/uploads/2026/03/628136659420-3.png', pedido: true },
+  'taller3d': { nombre: 'Taller de Papá Noel 3D', detalle: 'Eurographics · 323 piezas · Bajo pedido, envío en 5–7 días', precio: 2695, imgUrl: 'https://b2btoysline.es/wp-content/uploads/2026/03/628136659420-2.png', pedido: true },
+  'tienda': { nombre: 'The Christmas Shop', detalle: 'Eurographics · 1000 piezas · Bajo pedido, envío en 5–7 días', precio: 2195, imgUrl: 'https://b2btoysline.es/wp-content/uploads/2025/08/Fotos-Eurographica-novedades-2026-16.png', pedido: true },
+  'paris': { nombre: 'Nochebuena en París', detalle: 'Eurographics · 1000 piezas · Bajo pedido, envío en 5–7 días', precio: 2195, imgUrl: 'https://b2btoysline.es/wp-content/uploads/2021/01/6000-0785.jpg', pedido: true },
+  'granja': { nombre: 'Navidad en la granja', detalle: 'Cobble Hill · 1000 piezas · Bajo pedido, envío en 5–7 días', precio: 2195, imgUrl: 'https://b2btoysline.es/wp-content/uploads/1970/01/40215-christmas-on-the-farm-pkg-rgb.jpg', pedido: true },
+  'hogar': { nombre: 'Navidad junto al hogar', detalle: 'Eurographics · 500 piezas grandes · Bajo pedido, envío en 5–7 días', precio: 1995, imgUrl: 'https://b2btoysline.es/wp-content/uploads/2021/02/6500-5502-ISO-EU.jpg', pedido: true },
 };
 
 const ENVIO = 495;          // 4,95 € a península
@@ -65,11 +74,12 @@ function montarSesion(items) {
       price_data: {
         currency: 'eur',
         unit_amount: p.precio,
-        product_data: { name: p.nombre, description: p.detalle, images: [`${SITE}/img/${p.img}`] },
+        product_data: { name: p.nombre, description: p.detalle, images: [p.imgUrl || `${SITE}/img/${p.img}`] },
       },
     };
   });
   const preventa = ids.some(id => CATALOGO[id].detalle.includes('Preventa'));
+  const bajoPedido = ids.some(id => CATALOGO[id].pedido);
   const gratis = subtotal >= ENVIO_GRATIS;
 
   return {
@@ -83,7 +93,7 @@ function montarSesion(items) {
         type: 'fixed_amount',
         display_name: gratis ? 'Envío gratis a península' : 'Envío a península',
         fixed_amount: { amount: gratis ? 0 : ENVIO, currency: 'eur' },
-        delivery_estimate: preventa
+        delivery_estimate: (preventa || bajoPedido)
           ? undefined
           : { minimum: { unit: 'business_day', value: 2 }, maximum: { unit: 'business_day', value: 6 } },
       },
@@ -97,7 +107,9 @@ function montarSesion(items) {
     }],
     custom_text: preventa
       ? { submit: { message: 'Tu pedido incluye una escena en preventa: lo enviamos todo junto antes del 17 de diciembre.' } }
-      : undefined,
+      : bajoPedido
+        ? { submit: { message: 'Tu pedido incluye puzzles bajo pedido: lo enviamos todo junto en 5–7 días.' } }
+        : undefined,
     metadata: { carrito: ids.map(id => `${id}x${juntos[id]}`).join(',').slice(0, 490) },
     success_url: `${SITE}/?pedido=ok`,
     cancel_url: `${SITE}/#coleccion`,
