@@ -159,6 +159,19 @@ footer{border-top:1px solid var(--line)}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-block:28px;color:var(--muted);font-size:.92rem}
 footer .mail{font-weight:800;color:var(--ink);user-select:all}
 
+/* navidad */
+.xmas{background:var(--surface);border-bottom:1px solid var(--line)}
+.xmas .grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(24px,4vw,56px);align-items:center}
+.xmas .eyebrow{color:var(--tomato)}
+.xmas h2{font-size:var(--step-2);margin-top:10px}
+.xmas .lead{color:var(--muted);margin-top:14px}
+.perks{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:10px}
+.perks li{display:flex;gap:10px;align-items:flex-start}
+.perks li::before{content:"✦";color:var(--mustard);font-size:1.1rem;line-height:1.5}
+.dates{margin-top:20px;padding:14px 16px;border:2px dashed var(--tomato);border-radius:6px;font-weight:700}
+.dates span{display:block;font-weight:400;color:var(--muted);font-size:.92rem}
+.tag.excl{color:#fffdf8;background:var(--tomato);border-color:var(--tomato)}
+@media (max-width:860px){.xmas .grid{grid-template-columns:minmax(0,1fr)}}
 /* carrito */
 header .bar{flex-wrap:nowrap}
 .cart-btn{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1.5px solid var(--ink);color:var(--ink);border-radius:999px;padding:9px 14px;font:800 .95rem var(--body);cursor:pointer;flex-shrink:0}
@@ -212,7 +225,8 @@ header .bar{flex-wrap:nowrap}
   <div class="wrap bar">
     <a class="logo" href="#inicio" aria-label="La Pessa, inicio"><img src="img/logo.svg" alt="La Pessa" width="618" height="390" style="height:72px;width:auto"> <small>Puzzles para recordar</small></a>
     <nav class="nav" aria-label="Secciones">
-      <a href="#coleccion">Colección</a>
+      <a href="#navidad">Navidad</a>
+      <a href="#coleccion">Exclusivos</a>
       <a href="#para-quien">Para quién</a>
       <a href="#caja">La caja</a>
       <a href="#preguntas">Preguntas</a>
@@ -224,9 +238,36 @@ header .bar{flex-wrap:nowrap}
   </div>
 </header>
 
-<div class="notice"><p class="wrap">Novedad: 5 escenas nuevas en preventa · reserva hasta el 1 de diciembre y la recibes antes del 17 de diciembre</p></div>
+<div class="notice"><p class="wrap">🎄 Escenas en preventa: resérvalas antes del 1 de diciembre para que te lleguen a tiempo para Navidad</p></div>
 
 <main id="inicio">
+  <section id="navidad" class="xmas">
+    <div class="wrap grid">
+      <figure class="frame" style="margin:0">
+        <img src="img/nochebuena.jpg" width="1200" height="896" alt="Familia de los años 60 celebrando la Nochebuena alrededor de una mesa, junto a un belén y un árbol con espumillón.">
+        <figcaption><span>La Nochebuena · 96 piezas</span><span>Exclusivo de La Pessa</span></figcaption>
+      </figure>
+      <div>
+        <p class="eyebrow">Regalos de Navidad</p>
+        <h2>Este año, regala una tarde de recuerdos</h2>
+        <p class="lead">Un puzzle es un regalo que no se queda en el cajón: se abre en familia, se monta juntos y saca historias de cuando eran jóvenes.</p>
+        <ul class="perks">
+          <li>Caja kraft con lazo, lista para poner bajo el árbol.</li>
+          <li>Te lo enviamos directamente a la persona que lo recibe, con tu dedicatoria escrita a mano.</li>
+          <li>Junta varios puzzles en el carrito: envío gratis a partir de 60 €.</li>
+        </ul>
+        <div class="dates">
+          <p>Escenas en preventa: resérvalas antes del 1 de diciembre para que te lleguen a tiempo para Navidad<span>Hilo y aguja, Tomando el fresco, Un día de playa, El corral y El pescador.</span></p>
+          <p style="margin-top:10px">Resto de escenas: pídelas antes del 18 de diciembre<span>La cocina de la abuela, El mercado del pueblo y La Nochebuena. Salen en 24–48 horas.</span></p>
+        </div>
+        <div class="cta-row">
+          <button type="button" class="btn btn-primary add" data-id="nochebuena" data-umami-event="Al carrito: La Nochebuena (Navidad)">Añadir La Nochebuena · 29,95 €</button>
+          <a class="btn btn-ghost" href="#coleccion" data-umami-event="Navidad: ver todas">Ver todas las escenas</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="hero">
     <div class="wrap grid">
       <div>
@@ -240,8 +281,8 @@ header .bar{flex-wrap:nowrap}
         </div>
       </div>
       <figure class="frame" style="margin:0">
-        <img src="img/nochebuena.jpg" width="1200" height="896" alt="Ilustración al óleo de una cena de Nochebuena de los años 60: la abuela sirve la mesa, el abuelo con boina brinda, los niños ríen y al fondo hay un belén con río y castillo.">
-        <figcaption><span>La Nochebuena · 96 piezas</span><span>Ilustración original</span></figcaption>
+        <img src="img/cocina.jpg" width="1288" height="961" loading="lazy" alt="Una abuela con delantal de flores remueve una olla de barro en la cocina de leña; a su lado, un gato atigrado duerme sobre una alfombra.">
+        <figcaption><span>La cocina de la abuela · 24 piezas</span><span>Exclusivo de La Pessa</span></figcaption>
       </figure>
     </div>
   </section>
@@ -252,16 +293,16 @@ header .bar{flex-wrap:nowrap}
   <section id="coleccion">
     <div class="wrap">
       <div class="sec-head">
-        <p class="eyebrow">La colección</p>
+        <p class="eyebrow">Exclusivos de La Pessa</p>
         <h2>Escenas de la España que ellos vivieron</h2>
-        <p>La cocina de la abuela, el mercado del pueblo, hilo y aguja, el pescador, un día de playa… Cada puzzle mide 28,5 × 20 cm, cabe en cualquier mesa y viene en su caja kraft, listo para regalar.</p>
+        <p>Ilustraciones propias que solo encontrarás aquí. La cocina de la abuela, el mercado del pueblo, hilo y aguja, el pescador, un día de playa… Cada puzzle mide 28,5 × 20 cm, cabe en cualquier mesa y viene en su caja kraft, listo para regalar.</p>
       </div>
 
       <div class="products">
         <article class="card">
           <img src="img/cocina.jpg" width="1288" height="961" loading="lazy" alt="Una abuela con delantal de flores remueve una olla de barro en la cocina de leña; a su lado, un gato atigrado duerme sobre una alfombra.">
           <div class="body">
-            <span class="tag easy">24 piezas grandes</span>
+            <div class="tags"><span class="tag easy">24 piezas grandes</span><span class="tag excl">Exclusivo</span></div>
             <h3>La cocina de la abuela</h3>
             <p class="specs">Piezas de unos 5 cm, fáciles de coger · 28,5 × 20 cm</p>
             <p class="ask">«¿Qué se cocinaba en tu casa los domingos?»</p>
@@ -276,7 +317,7 @@ header .bar{flex-wrap:nowrap}
         <article class="card">
           <img src="img/mercado.jpg" width="1400" height="1045" loading="lazy" alt="Plaza de un pueblo blanco con mercado: puestos de naranjas y tomates, una báscula de platos, un burro con carro y la iglesia al fondo.">
           <div class="body">
-            <span class="tag reto">96 piezas</span>
+            <div class="tags"><span class="tag reto">96 piezas</span><span class="tag excl">Exclusivo</span></div>
             <h3>El mercado del pueblo</h3>
             <p class="specs">Lleno de detalles para buscar · 28,5 × 20 cm</p>
             <p class="ask">«¿A qué plaza ibas tú a comprar?»</p>
@@ -291,7 +332,7 @@ header .bar{flex-wrap:nowrap}
         <article class="card">
           <img src="img/nochebuena.jpg" width="1200" height="896" loading="lazy" alt="Familia de los años 60 celebrando la Nochebuena alrededor de una mesa con turrón, polvorones y pollo asado, junto a un belén y un árbol con espumillón.">
           <div class="body">
-            <span class="tag reto">96 piezas</span>
+            <div class="tags"><span class="tag reto">96 piezas</span><span class="tag excl">Exclusivo</span></div>
             <h3>La Nochebuena</h3>
             <p class="specs">El belén, la radio, los polvorones · 28,5 × 20 cm</p>
             <p class="ask">«¿Quién ponía el belén en tu casa?»</p>
@@ -306,7 +347,7 @@ header .bar{flex-wrap:nowrap}
         <article class="card">
           <img src="img/costurera.jpg" width="1200" height="896" loading="lazy" alt="Manos de mujer cosiendo una tela de flores en una máquina de coser antigua negra con adornos dorados, con carretes de colores, un acerico en forma de tomate, tijeras y un vestido de lunares colgado.">
           <div class="body">
-            <div class="tags"><span class="tag easy">24 piezas grandes</span><span class="tag pre">Preventa</span></div>
+            <div class="tags"><span class="tag easy">24 piezas grandes</span><span class="tag excl">Exclusivo</span><span class="tag pre">Preventa</span></div>
             <h3>Hilo y aguja</h3>
             <p class="specs">Carretes, tijeras y una tela de flores · 28,5 × 20 cm</p>
             <p class="ask">«¿Quién te cosía la ropa cuando eras pequeña?»</p>
@@ -320,7 +361,7 @@ header .bar{flex-wrap:nowrap}
         <article class="card">
           <img src="img/fresco.jpg" width="1200" height="896" loading="lazy" alt="Dos señoras mayores sentadas en sillas de enea a la puerta de una casa encalada: una pela judías verdes y la otra se abanica, con una puerta verde y geranios rojos.">
           <div class="body">
-            <div class="tags"><span class="tag easy">24 piezas grandes</span><span class="tag pre">Preventa</span></div>
+            <div class="tags"><span class="tag easy">24 piezas grandes</span><span class="tag excl">Exclusivo</span><span class="tag pre">Preventa</span></div>
             <h3>Tomando el fresco</h3>
             <p class="specs">Sillas de enea, abanico y geranios · 28,5 × 20 cm</p>
             <p class="ask">«¿Con quién salías a tomar el fresco en verano?»</p>
@@ -334,7 +375,7 @@ header .bar{flex-wrap:nowrap}
         <article class="card">
           <img src="img/playa.jpg" width="1200" height="896" loading="lazy" alt="Pareja joven de los años 60 en hamacas bajo una sombrilla de rayas rojas y blancas: ella ríe con sombrero de paja y él pela una naranja, con tortilla, sandía, botijo y una barca de pescadores.">
           <div class="body">
-            <div class="tags"><span class="tag easy">24 piezas grandes</span><span class="tag pre">Preventa</span></div>
+            <div class="tags"><span class="tag easy">24 piezas grandes</span><span class="tag excl">Exclusivo</span><span class="tag pre">Preventa</span></div>
             <h3>Un día de playa</h3>
             <p class="specs">La sombrilla, la tortilla y el botijo · 28,5 × 20 cm</p>
             <p class="ask">«¿A qué playa ibais en verano?»</p>
@@ -348,7 +389,7 @@ header .bar{flex-wrap:nowrap}
         <article class="card">
           <img src="img/corral.jpg" width="1200" height="896" loading="lazy" alt="Mujer joven con pañuelo y delantal de flores echando grano a una gallina con sus pollitos y a un gallo, junto a una cesta de huevos y una puerta azul.">
           <div class="body">
-            <div class="tags"><span class="tag easy">24 piezas grandes</span><span class="tag pre">Preventa</span></div>
+            <div class="tags"><span class="tag easy">24 piezas grandes</span><span class="tag excl">Exclusivo</span><span class="tag pre">Preventa</span></div>
             <h3>El corral</h3>
             <p class="specs">Gallinas, pollitos y huevos de casa · 28,5 × 20 cm</p>
             <p class="ask">«¿Teníais gallinas en casa?»</p>
@@ -362,7 +403,7 @@ header .bar{flex-wrap:nowrap}
         <article class="card">
           <img src="img/pescador.jpg" width="1200" height="896" loading="lazy" alt="Pescador con boina y camisa de rayas remendando una red en la arena, junto a una barca de madera con farol, cuerdas, corchos y cestos, y un pueblo de casas blancas al fondo.">
           <div class="body">
-            <div class="tags"><span class="tag easy">24 piezas grandes</span><span class="tag pre">Preventa</span></div>
+            <div class="tags"><span class="tag easy">24 piezas grandes</span><span class="tag excl">Exclusivo</span><span class="tag pre">Preventa</span></div>
             <h3>El pescador</h3>
             <p class="specs">Las redes, la barca y el farol · 28,5 × 20 cm</p>
             <p class="ask">«¿Qué se pescaba en tu pueblo?»</p>
@@ -522,8 +563,9 @@ header .bar{flex-wrap:nowrap}
   document.addEventListener('click',function(e){
     var b=e.target.closest('.add');
     if(b){var id=b.dataset.id; if(!P[id])return; c[id]=Math.min(20,(c[id]||0)+1); guardar(); pintar();
+      if(!b.dataset.label)b.dataset.label=b.textContent; var orig=b.dataset.label;
       b.classList.add('done'); b.textContent='Añadido ✓';
-      setTimeout(function(){b.classList.remove('done');b.textContent='Añadir al carrito';},1600);
+      setTimeout(function(){b.classList.remove('done');b.textContent=orig;},1600);
       aviso(P[id][0]+' está en tu carrito · Ver carrito'); return;}
     var m=e.target.closest('[data-mas]'); if(m){var k=m.dataset.mas;c[k]=Math.min(20,c[k]+1);guardar();pintar();return;}
     var n=e.target.closest('[data-menos]'); if(n){var k2=n.dataset.menos;c[k2]--; if(c[k2]<=0)delete c[k2]; guardar();pintar();return;}
