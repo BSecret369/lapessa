@@ -159,10 +159,45 @@ footer{border-top:1px solid var(--line)}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-block:28px;color:var(--muted);font-size:.92rem}
 footer .mail{font-weight:800;color:var(--ink);user-select:all}
 
+/* carrito */
+header .bar{flex-wrap:nowrap}
+.cart-btn{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1.5px solid var(--ink);color:var(--ink);border-radius:999px;padding:9px 14px;font:800 .95rem var(--body);cursor:pointer;flex-shrink:0}
+.cart-btn b{background:var(--tomato);color:#fffdf8;border-radius:999px;min-width:22px;height:22px;display:grid;place-items:center;font-size:.8rem;padding:0 6px}
+.cart-btn b.zero{background:var(--line);color:var(--muted)}
+.add.done{background:var(--tomato);color:#fffdf8}
+.cart-bg{position:fixed;inset:0;background:rgba(30,22,14,.45);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.cart-bg.on{opacity:1;pointer-events:auto}
+.cart{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--bg);z-index:51;display:flex;flex-direction:column;transform:translateX(100%);visibility:hidden;transition:transform .25s ease,visibility .25s;box-shadow:-20px 0 40px -20px rgba(0,0,0,.35);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.cart.on{transform:none;visibility:visible}
+.cart-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
+.cart-head h2{font-size:1.6rem}
+.x{background:none;border:0;font-size:1.9rem;line-height:1;cursor:pointer;color:var(--ink);padding:4px 10px;min-height:44px}
+.cart-list{flex:1;overflow:auto;padding:4px 20px;list-style:none;margin:0}
+.cart-list li{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px dashed var(--line)}
+.cart-list img{width:64px;height:48px;object-fit:cover;border-radius:4px}
+.cart-list h3{font-size:1.05rem}
+.cart-list .m{font-size:.82rem;color:var(--muted)}
+.cart-list .cart-empty{display:block;border:0;padding:40px 0;text-align:center;color:var(--muted)}
+.qty{display:flex;align-items:center;gap:4px}
+.qty button{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);font:800 1.05rem var(--body);cursor:pointer;color:var(--ink)}
+.qty span{min-width:22px;text-align:center;font-weight:800;font-variant-numeric:tabular-nums}
+.cart-foot{padding:18px 20px;border-top:1px solid var(--line);display:grid;gap:8px;background:var(--surface)}
+.row{display:flex;justify-content:space-between;gap:12px;font-variant-numeric:tabular-nums}
+.row.total{font-family:var(--display);font-size:1.4rem}
+.hint{font-size:.88rem;color:var(--bottle);font-weight:800}
+.cart-foot .btn{width:100%;margin-top:6px}
+.cart-foot .btn[disabled]{opacity:.6;cursor:wait}
+.cart-foot .safe{font-size:.8rem;color:var(--muted);text-align:center}
+.err{color:var(--tomato);font-size:.9rem;font-weight:700}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:999px;font-weight:800;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s;max-width:calc(100% - 32px);text-align:center;cursor:pointer}
+.toast.on{opacity:1;pointer-events:auto}
+.gracias{background:var(--bottle);color:var(--bottle-ink)}
+.gracias p{padding-block:14px;text-align:center;font-weight:700}
+@media (max-width:860px){.cart-btn span{display:none}}
+
 @media (max-width:860px){
   .hero .grid,.who{grid-template-columns:minmax(0,1fr)}
   .products{grid-template-columns:minmax(0,1fr)}
-  .packs{grid-template-columns:minmax(0,1fr)}
   .inbox{grid-template-columns:repeat(2,minmax(0,1fr))}
   .why{grid-template-columns:minmax(0,1fr)}
   .nav{display:none}
@@ -182,6 +217,10 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
       <a href="#caja">La caja</a>
       <a href="#preguntas">Preguntas</a>
     </nav>
+    <button type="button" class="cart-btn" id="abrirCarrito" aria-label="Ver carrito" data-umami-event="Abrir carrito">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 7h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7zm4 0V6a3 3 0 0 1 6 0v1"/></svg>
+      <span>Carrito</span><b id="cuenta" class="zero">0</b>
+    </button>
   </div>
 </header>
 
@@ -229,7 +268,7 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
             <div class="buy">
               <div><p class="price">24,95 €</p><p class="stock">Quedan 5</p></div>
               
-              <a class="btn btn-primary" data-umami-event="Comprar: La cocina de la abuela" href="https://buy.stripe.com/cNi8wQ004gB2e4u9ENdAk00">Comprar</a>
+              <button type="button" class="btn btn-primary add" data-id="cocina" data-umami-event="Al carrito: La cocina de la abuela">Añadir al carrito</button>
             </div>
           </div>
         </article>
@@ -244,7 +283,7 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
             <div class="buy">
               <div><p class="price">29,95 €</p><p class="stock">Quedan 5</p></div>
               
-              <a class="btn btn-primary" data-umami-event="Comprar: El mercado del pueblo" href="https://buy.stripe.com/00w5kE4gkacE6C28AJdAk01">Comprar</a>
+              <button type="button" class="btn btn-primary add" data-id="mercado" data-umami-event="Al carrito: El mercado del pueblo">Añadir al carrito</button>
             </div>
           </div>
         </article>
@@ -259,7 +298,7 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
             <div class="buy">
               <div><p class="price">29,95 €</p><p class="stock">Quedan 5</p></div>
               
-              <a class="btn btn-primary" data-umami-event="Comprar: La Nochebuena" href="https://buy.stripe.com/dRmeVebIMesU5xYaIRdAk02">Comprar</a>
+              <button type="button" class="btn btn-primary add" data-id="nochebuena" data-umami-event="Al carrito: La Nochebuena">Añadir al carrito</button>
             </div>
           </div>
         </article>
@@ -273,7 +312,7 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
             <p class="ask">«¿Quién te cosía la ropa cuando eras pequeña?»</p>
             <div class="buy">
               <div><p class="price">24,95 €</p><p class="stock pre">Envío antes del 17 dic.</p></div>
-              <a class="btn btn-primary" data-umami-event="Reservar: Hilo y aguja" href="https://buy.stripe.com/fZuaEY5koacE1hI5oxdAk09">Reservar</a>
+              <button type="button" class="btn btn-primary add" data-id="hilo" data-umami-event="Al carrito: Hilo y aguja">Añadir al carrito</button>
             </div>
           </div>
         </article>
@@ -287,7 +326,7 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
             <p class="ask">«¿Con quién salías a tomar el fresco en verano?»</p>
             <div class="buy">
               <div><p class="price">24,95 €</p><p class="stock pre">Envío antes del 17 dic.</p></div>
-              <a class="btn btn-primary" data-umami-event="Reservar: Tomando el fresco" href="https://buy.stripe.com/aFa3cw8wAdoQ5xY5oxdAk08">Reservar</a>
+              <button type="button" class="btn btn-primary add" data-id="fresco" data-umami-event="Al carrito: Tomando el fresco">Añadir al carrito</button>
             </div>
           </div>
         </article>
@@ -301,7 +340,7 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
             <p class="ask">«¿A qué playa ibais en verano?»</p>
             <div class="buy">
               <div><p class="price">24,95 €</p><p class="stock pre">Envío antes del 17 dic.</p></div>
-              <a class="btn btn-primary" data-umami-event="Reservar: Un día de playa" href="https://buy.stripe.com/cNi3cw8wAacEd0qdV3dAk07">Reservar</a>
+              <button type="button" class="btn btn-primary add" data-id="playa" data-umami-event="Al carrito: Un día de playa">Añadir al carrito</button>
             </div>
           </div>
         </article>
@@ -315,7 +354,7 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
             <p class="ask">«¿Teníais gallinas en casa?»</p>
             <div class="buy">
               <div><p class="price">24,95 €</p><p class="stock pre">Envío antes del 17 dic.</p></div>
-              <a class="btn btn-primary" data-umami-event="Reservar: El corral" href="https://buy.stripe.com/7sYcN6aEIbgI5xY6sBdAk06">Reservar</a>
+              <button type="button" class="btn btn-primary add" data-id="corral" data-umami-event="Al carrito: El corral">Añadir al carrito</button>
             </div>
           </div>
         </article>
@@ -329,19 +368,13 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
             <p class="ask">«¿Qué se pescaba en tu pueblo?»</p>
             <div class="buy">
               <div><p class="price">24,95 €</p><p class="stock pre">Envío antes del 17 dic.</p></div>
-              <a class="btn btn-primary" data-umami-event="Reservar: El pescador" href="https://buy.stripe.com/bJe00kdQU1G82lM3gpdAk05">Reservar</a>
+              <button type="button" class="btn btn-primary add" data-id="pescador" data-umami-event="Al carrito: El pescador">Añadir al carrito</button>
             </div>
           </div>
         </article>
       </div>
 
-      <div class="packs">
-        <div class="pack">
-          <div><h3>Pack de 2 puzzles</h3><p>Eliges las dos escenas al pagar, entre las ocho de la colección. Un solo envío.</p></div>
-          <div class="right"><div><p class="price">49,90 €</p><p class="save">Ahorras hasta 10 €</p></div><a class="btn btn-primary" data-umami-event="Comprar: Pack de 2 puzzles" href="https://buy.stripe.com/00w14oeUY98Ad0q4ktdAk03">Comprar</a></div>
-        </div>
-      </div>
-      <p class="packnote">Si en tu pedido hay una escena en preventa, lo enviamos todo junto antes del 17 de diciembre.</p>
+      <p class="packnote">Puedes juntar varios puzzles en un solo pago. Envío a península 4,95 €, gratis a partir de 60 €. Si en tu pedido hay una escena en preventa, lo enviamos todo junto antes del 17 de diciembre.</p>
     </div>
   </section>
 
@@ -409,7 +442,7 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
       <div class="faq">
         <details><summary>¿Cuánto tarda en llegar?</summary><p>Los puzzles disponibles los enviamos en 24–48 horas laborables; los de preventa (se pueden reservar hasta el 1 de diciembre), antes del 17 de diciembre. A península suele llegar en 2–4 días. Para Navidad, pide antes del 18 de diciembre.</p></details>
         <details><summary>¿Qué quiere decir «preventa»?</summary><p>Las escenas nuevas se fabrican en una tirada corta. La preventa está abierta hasta el 1 de diciembre. Al reservar pagas ahora y te guardamos tu puzzle: lo enviamos antes del 17 de diciembre, a tiempo para Navidad. Te avisamos por email cuando salga.</p></details>
-        <details><summary>¿Cuánto cuesta el envío?</summary><p>Envío a península: 4,95 €. Gratis a partir de 60 €.</p></details>
+        <details><summary>¿Cuánto cuesta el envío?</summary><p>Envío a península: 4,95 €. Gratis a partir de 60 €. Si quieres varios puzzles, añádelos al carrito y los pagas todos juntos, con un solo envío.</p></details>
         <details><summary>¿Puedo devolverlo?</summary><p>Si llega dañado o con un defecto de fábrica, envíanos fotos a hola@lapessa.es y, una vez comprobado, te mandamos otro sin coste. Además, si compras como particular tienes 14 días desde que lo recibes para desistir de la compra; en ese caso el envío de vuelta corre a tu cargo y el puzzle debe volver sin montar y completo. <a href="desistimiento.html">Toda la información aquí</a>.</p></details>
         <details><summary>¿Puedo enviarlo directamente como regalo?</summary><p>Sí. Pon la dirección de la persona que lo recibe y escríbenos la dedicatoria: la incluimos a mano en una tarjeta.</p></details>
         <details><summary>¿Qué puzzle elijo para mi madre o mi abuelo?</summary><p>Si hace tiempo que no hace puzzles o le cuesta concentrarse, empieza por el de 24 piezas. Si le gustan los retos, el de 96. Si dudas, escríbenos y te ayudamos.</p></details>
@@ -427,6 +460,103 @@ footer .mail{font-weight:800;color:var(--ink);user-select:all}
   </div>
 </footer>
 <div class="tiles" aria-hidden="true"></div>
+
+<div class="cart-bg" id="carritoFondo"></div>
+<aside class="cart" id="carrito" aria-label="Carrito" aria-hidden="true">
+  <div class="cart-head"><h2>Tu carrito</h2><button type="button" class="x" id="cerrarCarrito" aria-label="Cerrar carrito">×</button></div>
+  <ul class="cart-list" id="lista"></ul>
+  <div class="cart-foot" id="pie">
+    <div class="row"><span>Puzzles</span><span id="sub">0,00 €</span></div>
+    <div class="row"><span>Envío a península</span><span id="env">4,95 €</span></div>
+    <p class="hint" id="falta"></p>
+    <div class="row total"><span>Total</span><span id="tot">0,00 €</span></div>
+    <p class="err" id="error" hidden></p>
+    <button type="button" class="btn btn-primary" id="pagar" data-umami-event="Ir a pagar">Ir a pagar</button>
+    <p class="safe">Pago seguro con Stripe. La dirección y la dedicatoria se ponen en el siguiente paso.</p>
+  </div>
+</aside>
+<div class="toast" id="aviso" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  // Dirección de la función de pago en Vercel (se cambia si el proyecto de Vercel tiene otro nombre)
+  var API='https://lapessa.vercel.app/api/checkout';
+  var ENVIO=4.95, GRATIS=60;
+  // Solo para mostrar en el carrito: el precio que se cobra está en api/checkout.js
+  var P={
+    cocina:['La cocina de la abuela','24 piezas grandes',24.95,'cocina.jpg'],
+    mercado:['El mercado del pueblo','96 piezas',29.95,'mercado.jpg'],
+    nochebuena:['La Nochebuena','96 piezas',29.95,'nochebuena.jpg'],
+    hilo:['Hilo y aguja','24 piezas · Preventa',24.95,'costurera.jpg'],
+    fresco:['Tomando el fresco','24 piezas · Preventa',24.95,'fresco.jpg'],
+    playa:['Un día de playa','24 piezas · Preventa',24.95,'playa.jpg'],
+    corral:['El corral','24 piezas · Preventa',24.95,'corral.jpg'],
+    pescador:['El pescador','24 piezas · Preventa',24.95,'pescador.jpg']
+  };
+  var KEY='lapessa-carrito', c={};
+  var $=function(id){return document.getElementById(id);};
+  function leer(){try{c=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){c={};} for(var k in c){if(!P[k]||!(c[k]>0))delete c[k];}}
+  function guardar(){try{localStorage.setItem(KEY,JSON.stringify(c));}catch(e){}}
+  function eur(n){return n.toFixed(2).replace('.',',')+' €';}
+  function track(n){try{if(window.umami&&umami.track)umami.track(n);}catch(e){}}
+
+  function pintar(){
+    var ids=Object.keys(c), uds=0, sub=0;
+    ids.forEach(function(k){uds+=c[k]; sub+=c[k]*P[k][2];});
+    $('cuenta').textContent=uds; $('cuenta').className=uds?'':'zero';
+    if(!ids.length){
+      $('lista').innerHTML='<li class="cart-empty">Tu carrito está vacío.<br>Elige una escena de la colección.</li>';
+      $('pie').hidden=true; return;
+    }
+    $('pie').hidden=false;
+    $('lista').innerHTML=ids.map(function(k){var p=P[k];return '<li><img src="img/'+p[3]+'" alt=""><div><h3>'+p[0]+'</h3><p class="m">'+p[1]+' · '+eur(p[2])+'</p></div>'+
+      '<div class="qty"><button type="button" data-menos="'+k+'" aria-label="Quitar uno de '+p[0]+'">−</button><span>'+c[k]+'</span><button type="button" data-mas="'+k+'" aria-label="Añadir otro de '+p[0]+'">+</button></div></li>';}).join('');
+    var env=sub>=GRATIS?0:ENVIO;
+    $('sub').textContent=eur(sub); $('env').textContent=env?eur(env):'Gratis'; $('tot').textContent=eur(sub+env);
+    $('falta').textContent=env?('Te faltan '+eur(GRATIS-sub)+' para el envío gratis'):'Tienes el envío gratis';
+  }
+  function abrir(){$('aviso').classList.remove('on');$('carrito').classList.add('on');$('carritoFondo').classList.add('on');$('carrito').setAttribute('aria-hidden','false');$('error').hidden=true;}
+  function cerrar(){$('carrito').classList.remove('on');$('carritoFondo').classList.remove('on');$('carrito').setAttribute('aria-hidden','true');}
+  var t; function aviso(txt){var a=$('aviso');a.textContent=txt;a.classList.add('on');clearTimeout(t);t=setTimeout(function(){a.classList.remove('on');},2600);}
+
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.add');
+    if(b){var id=b.dataset.id; if(!P[id])return; c[id]=Math.min(20,(c[id]||0)+1); guardar(); pintar();
+      b.classList.add('done'); b.textContent='Añadido ✓';
+      setTimeout(function(){b.classList.remove('done');b.textContent='Añadir al carrito';},1600);
+      aviso(P[id][0]+' está en tu carrito · Ver carrito'); return;}
+    var m=e.target.closest('[data-mas]'); if(m){var k=m.dataset.mas;c[k]=Math.min(20,c[k]+1);guardar();pintar();return;}
+    var n=e.target.closest('[data-menos]'); if(n){var k2=n.dataset.menos;c[k2]--; if(c[k2]<=0)delete c[k2]; guardar();pintar();return;}
+  });
+  $('abrirCarrito').addEventListener('click',abrir);
+  $('cerrarCarrito').addEventListener('click',cerrar);
+  $('carritoFondo').addEventListener('click',cerrar);
+  $('aviso').addEventListener('click',abrir);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')cerrar();});
+
+  $('pagar').addEventListener('click',function(){
+    var btn=this, items=Object.keys(c).map(function(k){return {id:k,cantidad:c[k]};});
+    if(!items.length)return;
+    btn.disabled=true; btn.textContent='Abriendo el pago…'; $('error').hidden=true;
+    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:items})})
+      .then(function(r){return r.json().catch(function(){return {};}).then(function(d){if(!r.ok||!d.url)throw new Error(d.error||'');return d;});})
+      .then(function(d){track('Pago abierto');location.href=d.url;})
+      .catch(function(err){btn.disabled=false;btn.textContent='Ir a pagar';
+        var msg=err&&err.message; if(!msg||msg==='Failed to fetch'||msg.indexOf('NetworkError')>-1||msg.indexOf('Load failed')>-1)msg='No se ha podido abrir el pago. Inténtalo otra vez o escríbenos a hola@lapessa.es.';
+        $('error').textContent=msg; $('error').hidden=false;});
+  });
+
+  leer();
+  if(/[?&]pedido=ok/.test(location.search)){
+    c={}; guardar(); track('Pedido pagado');
+    var g=document.createElement('div'); g.className='gracias';
+    g.innerHTML='<p class="wrap">¡Gracias por tu pedido! Te llegará un email de confirmación. Para cualquier duda, escríbenos a hola@lapessa.es.</p>';
+    var nt=document.querySelector('.notice'); if(nt)nt.parentNode.insertBefore(g,nt);
+    try{history.replaceState(null,'',location.pathname);}catch(e){}
+  }
+  pintar();
+})();
+</script>
 
 <script>
 (function(){
